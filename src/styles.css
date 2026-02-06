@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --neon-red: #ff1744;
+  --neon-green: #00ff41;
+  --blood-red: #8b0000;
+  --toxic-green: #39ff14;
+  --dark-bg: #0a0a0a;
+  --panel-bg: rgba(10, 10, 10, 0.9);
+  --glow-red: 0 0 10px #ff1744, 0 0 20px #ff1744, 0 0 40px #ff174480;
+  --glow-green: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff4180;
+  --text-glow: 0 0 10px currentColor;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Share Tech Mono', monospace;
+  background: var(--dark-bg);
+  color: white;
+}
+
+.game-container {
+  width: 100vw;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanline Effect */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: scanlineMove 8s linear infinite;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+@keyframes scanlineMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(3px); }
+}
+
+/* Footer */
+.game-footer {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  z-index: 50;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.5px;
+}
+
+.footer-highlight {
+  color: rgba(255, 23, 68, 0.5);
+}
+
+/* Glitch Text Effect */
+@keyframes glitch {
+  0%, 90%, 100% {
+    transform: translate(0);
+    text-shadow: var(--text-glow);
+  }
+  92% {
+    transform: translate(-2px, 1px);
+    text-shadow: -2px 0 var(--neon-green), 2px 0 var(--neon-red);
+  }
+  94% {
+    transform: translate(2px, -1px);
+    text-shadow: 2px 0 var(--neon-green), -2px 0 var(--neon-red);
+  }
+  96% {
+    transform: translate(-1px, 2px);
+    text-shadow: -1px 0 var(--neon-green), 1px 0 var(--neon-red);
+  }
+  98% {
+    transform: translate(1px, -2px);
+    text-shadow: 1px 0 var(--neon-green), -1px 0 var(--neon-red);
+  }
+}
+
+.glitch-text {
+  animation: glitch 3s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulse {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Health Bar Colors */
+.health-critical {
+  animation: pulse 0.5s ease-in-out infinite;
+}
+
+/* Button Styles */
+.arcade-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: clamp(14px, 3vw, 18px);
+  padding: 12px 32px;
+  background: transparent;
+  border: 2px solid var(--neon-red);
+  color: var(--neon-red);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  min-width: 120px;
+}
+
+.arcade-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 23, 68, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.arcade-btn:hover {
+  box-shadow: var(--glow-red);
+  background: rgba(255, 23, 68, 0.1);
+}
+
+.arcade-btn:hover::before {
+  left: 100%;
+}
+
+.arcade-btn:active {
+  transform: scale(0.98);
+}
+
+.arcade-btn.green {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+
+.arcade-btn.green:hover {
+  box-shadow: var(--glow-green);
+  background: rgba(0, 255, 65, 0.1);
+}
+
+.arcade-btn.green::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.3), transparent);
+}
+
+/* Input Styles */
+.arcade-input {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 18px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--neon-green);
+  color: var(--neon-green);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  width: 100%;
+  max-width: 200px;
+  min-height: 48px;
+}
+
+.arcade-input:focus {
+  outline: none;
+  box-shadow: var(--glow-green);
+}
+
+.arcade-input::placeholder {
+  color: rgba(0, 255, 65, 0.4);
+}
+
+/* Mobile touch optimization */
+@media (max-width: 768px) {
+  .arcade-btn {
+    padding: 16px 24px;
+    min-height: 52px;
+  }
+
+  .arcade-input {
+    padding: 16px;
+    font-size: 16px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .game-footer {
+    font-size: 8px;
+    bottom: 4px;
+  }
+}
